@@ -1,12 +1,20 @@
 import streamlit as st
-import pandas as pd
 import numpy as np
-from tensorflow.python.keras.layers import Dense
-from tensorflow.python.keras import Sequential
 
-# Build model
-model = Sequential()
-model.add(Dense(1)) 
-model.compile(loss='mse')  
+# Sample data
+X = np.array([1000, 1500, 2000]) 
+y = np.array([500000, 750000, 1000000])
 
-st.write("ML Application")
+# Linear regression model
+def predict(size, weight, bias):
+  return weight * size + bias
+
+# Train parameters  
+weight = (np.mean(y) - np.mean(X)) / np.var(X)
+bias = np.mean(y) - weight * np.mean(X)
+
+# Streamlit app
+size = st.number_input("Size", min_value=100, max_value=5000, value=1000)
+price = predict(size, weight, bias) 
+
+st.write(f"Predicted Price: {price}")
